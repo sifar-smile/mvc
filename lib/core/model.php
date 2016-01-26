@@ -15,6 +15,11 @@ class Model
     private static $_instance = null;
 
     /**
+     * @var null Database Connection
+     */
+    public $db = null;
+
+    /**
      * Create unique instance for the class
      *
      * @param void

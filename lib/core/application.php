@@ -23,17 +23,20 @@ class Application
         // create array with URL parts in $url
         $this->splitUrl();
 
+        // Open DB connection
+        $db = $this->openDatabaseConnection();
+
         // check for controller: no controller given ? then load start-page
         if (!$this->url_controller) {
             require APP . 'controller/home.php';
-            $page = new Home();
+            $page = new Home($db);
             $page->index();
         } elseif (file_exists(APP . 'controller/' . $this->url_controller . '.php')) {
             // here we did check for controller: does such a controller exist ?
             // if so, then load this file and create this controller
             // example: if controller would be "car", then this line would translate into: $this->car = new car();
             require APP . 'controller/' . $this->url_controller . '.php';
-            $this->url_controller = new $this->url_controller();
+            $this->url_controller = new $this->url_controller($db);
 
             // check for method: does such a method exist in the controller ?
             if (method_exists($this->url_controller, $this->url_action)) {
@@ -57,6 +60,23 @@ class Application
             header('location: ' . URL . 'error');
         }
     }
+
+    /**
+     * Open the database connection with the credentials from app/config/config.php
+     */
+    private function openDatabaseConnection()
+    {
+        // set the (optional) options of the PDO connection. in this case, we set the fetch mode to
+        // "objects", which means all results will be objects, like this: $result->user_name !
+        // For example, fetch mode FETCH_ASSOC would return results like this: $result["user_name] !
+        // @see http://www.php.net/manual/en/pdostatement.fetch.php
+        $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+
+        // generate a database connection, using the PDO connector
+        // @see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
+        return new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=' . DB_CHARSET, DB_USER, DB_PASS, $options);
+    }
+
     /**
      * Get and split the URL
      */
