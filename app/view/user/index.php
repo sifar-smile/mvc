@@ -5,10 +5,10 @@
         <h1>Hello, <?php echo $currentUser->login ?></h1>
         <div><a href="<?php echo URL; ?>user/editUser">Edit your account</a></div>
 
-        <h3>Globals messages</h3>
+        <h3>Private messages</h3>
         <div>
             <?php
-                // Lister tous les messages globaux
+                // Lister tous les messages privés
             ?>
         </div>
     </div>
