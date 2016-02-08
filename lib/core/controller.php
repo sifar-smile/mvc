@@ -13,11 +13,6 @@ class Controller
     public $db = null;
 
     /**
-     * @var null Model
-     */
-    public $model = null;
-
-    /**
      * Whenever controller is created, open a database connection too and load "the model".
      */
     function __construct($db)
@@ -32,8 +27,7 @@ class Controller
      */
     public function loadModel()
     {
-        // create new "model" (and pass the database connection)
-        $this->model = model::getInstance($this->db);
+        // TO overide for load all models (see user controller)
     }
 
 }
