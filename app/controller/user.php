@@ -10,7 +10,7 @@
  */
 class User extends Controller
 {
-/**
+     /**
      * @var null userModel
      */
     public userModel = null;
