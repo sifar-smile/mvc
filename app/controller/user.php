@@ -10,6 +10,15 @@
  */
 class User extends Controller
 {
+/**
+     * @var null userModel
+     */
+    public userModel = null;
+    
+    /**
+     * @var null privateMessageModel
+     */
+    public privateMessageModel = null;
 
     /**
      * Loads the "model".
@@ -18,9 +27,12 @@ class User extends Controller
     public function loadModel()
     {
         require_once APP . 'model/userModel.php';
+        // TO DECOMMENT once the model is created
+        //require_once APP . 'model/privateMessageModel.php';
 
         // create new "model" (and pass the database connection)
-        $this->model = UserModel::getInstance($this->db);
+        $this->userModel = new UserModel($this->db);
+        // $this->privateMessageModel = new privateMessageModel($this->db);
     }
 
     /**
@@ -30,7 +42,7 @@ class User extends Controller
     public function index()
     {
         // getting all informations of current user
-        $currentUser = $this->model->getCurrentUser();
+        $currentUser = $this->userModel->getCurrentUser();
 
         // load views
         require APP . 'view/_templates/header.php';
@@ -53,7 +65,7 @@ class User extends Controller
         if (isset($_POST["submit_add_user"])) {
             // do addUser() in model/userModel.php
             // TODO : Retourner une erreur si jamais les champs ne sont pas correctement complétés.
-            $this->model->addUser($_POST["login"], $_POST["password"],  $_POST["firstname"],  $_POST["lastname"]);
+            $this->userModel->addUser($_POST["login"], $_POST["password"],  $_POST["firstname"],  $_POST["lastname"]);
         }
         // where to go after user has been added
         header('location: ' . URL . 'user/index');
@@ -66,7 +78,7 @@ class User extends Controller
     public function editUser()
     {
         // getting all informations of current user
-        $currentUser = $this->model->getCurrentUser();
+        $currentUser = $this->userModel->getCurrentUser();
 
         // TODO : Mettre à jour l'utilisateur
 
