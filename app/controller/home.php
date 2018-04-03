@@ -12,12 +12,12 @@ class Home extends Controller
     /**
      * @var null userModel
      */
-    public userModel = null;
+    public $userModel = null;
     
     /**
      * @var null privateMessageModel
      */
-    public globalMessageModel = null;
+    public $globalMessageModel = null;
     /**
      * Loads the "model".
      * @return object model
